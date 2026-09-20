@@ -1,6 +1,12 @@
-# Revenue-Recovery
-Build an agent that detects revenue at risk, determines the right intervention, and executes a bounded recovery workflow: from payment failures and checkout abandonment to overdue receivables.
 # RecoverAI — Autonomous AI Revenue Recovery Platform
+
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg?style=flat&logo=FastAPI&logoColor=white)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18.2.0-61DAFB.svg?style=flat&logo=React&logoColor=black)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.4.21-646CFF.svg?style=flat&logo=Vite&logoColor=white)](https://vitejs.dev/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.4.1-F7931E.svg?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Track 03: Razorpay Innovation Challenge](https://img.shields.io/badge/Razorpay_Challenge-Track_03_AI_Revenue_Recovery-0C2340.svg?logo=razorpay&logoColor=white)](https://razorpay.com)
+
 > **Track 03: AI Revenue Recovery** | Razorpay Innovation Challenge
 > *"Detect revenue at risk. Decide the right intervention. Recover money automatically."*
 
@@ -92,11 +98,20 @@ RecoverAI never gives AI unrestricted financial authority. Autonomous actions ar
 
 ## 🚀 Quickstart & Setup Guide
 
-### Prerequisites
+### ⚡ 1-Click Launch (Windows)
+Run both backend and frontend servers and automatically launch the browser in one click:
+* **Option A**: Double-click [`run.bat`](run.bat) from Windows Explorer.
+* **Option B**: Run `.\start.ps1` in PowerShell.
+
+---
+
+### 🛠️ Manual Step-by-Step Setup
+
+#### Prerequisites
 - Python 3.10+
 - Node.js 18+ and npm
 
-### 1. Backend Setup
+#### 1. Backend Setup
 ```bash
 # In project root
 cd backend
@@ -106,21 +121,32 @@ pip install -r requirements.txt
 python -m pytest tests/test_backend.py -v
 
 # Seed database with 1,000 realistic cases (including ABC Technologies)
-$env:PYTHONPATH="." ; python -m app.database.seed
+python -m app.database.seed
 
 # Start FastAPI server on port 8000
 python -m uvicorn app.main:app --reload --port 8000
 ```
-API Documentation: `http://localhost:8000/docs`
+Interactive API Docs (Swagger): `http://localhost:8000/docs`
 
-### 2. Frontend Setup
+#### 2. Frontend Setup
 ```bash
 # In project root
 cd frontend
 npm install
 npm run dev
 ```
-Open `http://localhost:3000` to interact with RecoverAI.
+Access the application at `http://localhost:3000`.
+
+---
+
+## 🧭 3-Stage User Navigation Journey
+
+1. **First Appearance — Launch Executive Platform**:
+   * Initial landing state at `http://localhost:3000` with high-impact hero video, KPI benchmarks, and the **`Launch Executive Platform`** CTA.
+2. **Second View — Executive Login Portal**:
+   * Authenticated identity selection with 1-click demo profiles (**Premanshu Kumar, CFO • Razorpay FinTech**, RevOps Lead, Collections Lead) and 256-bit TLS security indicators.
+3. **Third View — Main Dashboard & Platform Overview**:
+   * Complete revenue intelligence workspace with live KPI cards, interactive recovery funnels, case management, and AI agent diagnosis.
 
 ---
 
