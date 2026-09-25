@@ -1,7 +1,7 @@
 services:
   - type: web
     name: recoverai-all-in-one
-    env: docker
+    runtime: docker
     region: oregon
     plan: free
     dockerfilePath: ./Dockerfile

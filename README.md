@@ -6,6 +6,7 @@
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.4.1-F7931E.svg?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Track 03: Razorpay Innovation Challenge](https://img.shields.io/badge/Razorpay_Challenge-Track_03_AI_Revenue_Recovery-0C2340.svg?logo=razorpay&logoColor=white)](https://razorpay.com)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Premanshu-Kumar/Revenue-Recovery)
 
 > **Track 03: AI Revenue Recovery** | Razorpay Innovation Challenge
 > *"Detect revenue at risk. Decide the right intervention. Recover money automatically."*
