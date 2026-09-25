@@ -1,72 +1,56 @@
 # 🚀 RecoverAI — Cloud Deployment Guide
 
-This guide explains how to deploy **RecoverAI** (FastAPI Backend + React Vite Frontend) to the cloud for free.
+This repository supports both **Single-App Deployment** (Frontend + Backend unified on 1 service & 1 URL) and **Separated Deployment** (Frontend on Vercel + Backend on Render).
 
 ---
 
-## 🏗️ Architecture Overview
+## 🏆 Option 1: Deploy as ONE Single App on Render (Recommended)
+> **Best if you want 1 account, 1 service, 1 URL, and zero CORS headaches.**
 
-| Component | Technology | Recommended Host | Free Tier Available? |
-|---|---|---|:---:|
-| **Frontend** | React 18 + Vite + Tailwind | **Vercel** or **Netlify** | ✅ Yes (100% Free) |
-| **Backend** | Python 3.11 + FastAPI + ML | **Render** or **Railway** | ✅ Yes (Free Web Service) |
+Render supports deploying via the pre-configured multi-stage `Dockerfile`, which builds the React Vite frontend and bundles it directly with the Python FastAPI backend into a single container.
 
----
-
-## 📦 Step 1: Deploy Backend to Render (5 Minutes)
-
-1. Go to [Render.com](https://render.com) and sign in with your GitHub account.
-2. Click **"New +"** $\to$ **"Web Service"**.
+1. Go to **[Render.com](https://render.com)** and log in with GitHub.
+2. Click **New +** $\to$ **Web Service**.
 3. Select your repository: `Premanshu-Kumar/Revenue-Recovery`.
-4. Configure the settings:
-   - **Name**: `recoverai-backend`
-   - **Language**: `Python 3`
+4. Configure:
+   - **Name**: `recoverai`
+   - **Environment / Runtime**: `Docker`
    - **Region**: `Oregon (US West)` or your closest region
    - **Branch**: `main`
-   - **Root Directory**: Leave blank (or `backend`)
+   - **Instance Type**: **Free**
+5. Click **Create Web Service**.
+6. Render will automatically build the container and deploy your full platform to a single URL:
+   - **Live App**: `https://recoverai.onrender.com`
+   - **API Docs**: `https://recoverai.onrender.com/docs`
+   - **API Endpoints**: `https://recoverai.onrender.com/api`
+
+---
+
+## ⚡ Option 2: Deploy as ONE App on Railway
+
+1. Go to **[Railway.app](https://railway.app)** and sign in with GitHub.
+2. Click **New Project** $\to$ **Deploy from GitHub repo**.
+3. Select `Premanshu-Kumar/Revenue-Recovery`.
+4. Railway will automatically detect the `Dockerfile` and deploy the unified app.
+5. In your service settings under **Networking**, click **Generate Domain** to get your public URL.
+
+---
+
+## 🎨 Option 3: Separated Architecture (Frontend on Vercel + Backend on Render)
+> **Best if you want Vercel's global edge CDN speed for the frontend.**
+
+### Part A: Deploy Backend to Render
+1. In [Render.com](https://render.com), click **New +** $\to$ **Web Service**.
+2. Select `Premanshu-Kumar/Revenue-Recovery`.
+3. Choose **Python 3**:
    - **Build Command**: `pip install -r backend/requirements.txt`
    - **Start Command**: `cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-   - **Instance Type**: `Free`
-5. Click **"Create Web Service"**.
-6. Once deployed, Render will provide your public URL (e.g. `https://recoverai-backend.onrender.com`).
-   - Test it by visiting: `https://recoverai-backend.onrender.com/docs`
+   - **Plan**: Free
+4. Copy the backend URL (e.g. `https://recoverai-backend.onrender.com`).
 
----
-
-## 🎨 Step 2: Deploy Frontend to Vercel or Netlify (3 Minutes)
-
-### Option A: Deploy on Vercel (Recommended)
-
-1. Go to [Vercel.com](https://vercel.com) and sign in with GitHub.
-2. Click **"Add New..."** $\to$ **"Project"**.
-3. Import your repository: `Premanshu-Kumar/Revenue-Recovery`.
-4. In the Project Configuration:
-   - **Framework Preset**: `Vite`
-   - **Root Directory**: Click edit and select `frontend` (or leave default since `vercel.json` is configured).
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-5. **Environment Variables**:
-   - Key: `VITE_API_URL`
-   - Value: `https://<your-render-backend-url>/api` *(e.g. `https://recoverai-backend.onrender.com/api`)*
-6. Click **"Deploy"**.
-7. In ~60 seconds, your site will be live at `https://your-project.vercel.app`!
-
----
-
-### Option B: Deploy on Netlify
-
-1. Go to [Netlify.com](https://netlify.com) and sign in with GitHub.
-2. Click **"Add new site"** $\to$ **"Import an existing project"**.
-3. Select `Premanshu-Kumar/Revenue-Recovery`.
-4. The pre-configured `netlify.toml` will automatically set:
-   - **Base directory**: `frontend`
-   - **Build command**: `npm run build`
-   - **Publish directory**: `dist`
-5. Under **Environment variables**, add:
+### Part B: Deploy Frontend to Vercel
+1. In [Vercel.com](https://vercel.com), click **Add New...** $\to$ **Project** $\to$ Import `Premanshu-Kumar/Revenue-Recovery`.
+2. Framework Preset: `Vite`
+3. Environment Variables:
    - `VITE_API_URL` = `https://<your-render-backend-url>/api`
-6. Click **"Deploy Site"**.
-
----
-
-## 🔒 CORS & Security
-The backend is already pre-configured with `CORSMiddleware` (`allow_origins=["*"]`), so your Vercel/Netlify frontend will be able to make API requests immediately without cross-origin errors.
+4. Click **Deploy**.

@@ -59,12 +59,33 @@ app.include_router(simulation.router, prefix=settings.API_V1_STR)
 app.include_router(demo.router, prefix=settings.API_V1_STR)
 app.include_router(ai.router, prefix=settings.API_V1_STR)
 
-@app.get("/")
-def root():
-    return {
-        "platform": "RecoverAI",
-        "tagline": "Detect revenue at risk. Decide the right intervention. Recover money automatically.",
-        "status": "OPERATIONAL",
-        "docs_url": "/docs",
-        "version": "1.0.0"
-    }
+# Static frontend assets for single-app deployment
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+FRONTEND_DIST = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+
+if FRONTEND_DIST.exists() and (FRONTEND_DIST / "index.html").exists():
+    if (FRONTEND_DIST / "assets").exists():
+        app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="assets")
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_spa(full_path: str):
+        # Allow API endpoints and docs to pass through without interception
+        if full_path.startswith("api") or full_path.startswith("docs") or full_path.startswith("openapi.json"):
+            return None
+        target_file = FRONTEND_DIST / full_path
+        if full_path and target_file.is_file():
+            return FileResponse(str(target_file))
+        return FileResponse(str(FRONTEND_DIST / "index.html"))
+else:
+    @app.get("/")
+    def root():
+        return {
+            "platform": "RecoverAI",
+            "tagline": "Detect revenue at risk. Decide the right intervention. Recover money automatically.",
+            "status": "OPERATIONAL",
+            "docs_url": "/docs",
+            "version": "1.0.0"
+        }
